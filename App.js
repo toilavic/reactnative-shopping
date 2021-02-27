@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AuthDemo from './tutorials/step11-jwt-auth/AuthDemo';
+import AuthDemo from './AuthDemo';
 
 
 export default function App() {

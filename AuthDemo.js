@@ -3,7 +3,6 @@ import { Text, View, ActivityIndicator } from 'react-native'
 import LoginScreen from './components/LoginScreen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-
 import SignUpScreen from './components/SignUpScreen'
 import SignUpCompleted from './components/SignUpCompleted'
 import * as SecureStore from 'expo-secure-store'
@@ -11,7 +10,7 @@ import LoadingScreen from './components/LoadingScreen'
 import TodoApp from './components/TodoApp'
 
 const Stack = createStackNavigator();
-const secureStoreTokenName = "demoAppJWT2";
+const secureStoreTokenName = "demoAppJWT2";   
 
 export default class AuthDemo extends Component {
 
