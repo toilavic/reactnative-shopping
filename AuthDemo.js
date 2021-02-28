@@ -8,9 +8,11 @@ import SignUpCompleted from './components/SignUpCompleted'
 import * as SecureStore from 'expo-secure-store'
 import LoadingScreen from './components/LoadingScreen'
 import TodoApp from './components/TodoApp'
+import ProductItem from './components/ProductItem'
+import Home from './screens/Home'
 
 const Stack = createStackNavigator();
-const secureStoreTokenName = "demoAppJWT2";   
+const secureStoreTokenName = "demoAppJWT2";
 
 export default class AuthDemo extends Component {
 
@@ -45,8 +47,6 @@ export default class AuthDemo extends Component {
       })    
   }
 
-  
-
   authLogic = () => {
     const authScreens = (
       <>
@@ -56,7 +56,9 @@ export default class AuthDemo extends Component {
             headerShown: false,
           }}
         >
-          { props => <LoginScreen {...props} onLoginReceiveJWT={ this.onLoginReceiveJWT } apiURI={ this.props.apiURI }></LoginScreen> }
+          { props => <LoginScreen {...props} onLoginReceiveJWT={ this.onLoginReceiveJWT }
+                                             apiURI={ this.props.apiURI }
+                                             onLoginReceiveName={this.onLoginReceiveName}></LoginScreen> }
         </Stack.Screen>
         <Stack.Screen
           name="Signup"
@@ -73,6 +75,22 @@ export default class AuthDemo extends Component {
           }}
         >
           { props => <SignUpCompleted {...props}></SignUpCompleted>}
+        </Stack.Screen>
+        <Stack.Screen
+          name="ProductItem"
+          options={{
+            headerShown: false,
+          }}
+        >
+          { props => <ProductItem {...props} apiURI={ this.props.apiURI }></ProductItem>}
+        </Stack.Screen>
+        <Stack.Screen
+          name="Home"
+          options={{
+            headerShown: false,
+          }}
+        >
+          { props => <Home {...props} apiURI={ this.props.apiURI }></Home>}
         </Stack.Screen>
       </>
     );
