@@ -128,7 +128,6 @@ export default class AuthDemo extends Component {
         return authScreens;
       }
     }
-    console.error('Incorrect authLogic function processing');
   }
 
   onLogout = () => {

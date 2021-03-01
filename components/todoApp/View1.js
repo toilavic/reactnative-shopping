@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet, Image, FlatList, Alert } from 'react-native'
-import { images, COLORS, FONTS, SIZES } from '../../constants';
+import { COLORS, FONTS, SIZES } from '../../constants';
 import { Icon } from 'react-native-elements'
 
 const View1 = (props) => {
@@ -24,7 +24,7 @@ const View1 = (props) => {
       })
       .then(json => {
         setItems(json)
-        if(props.userData == null) setUser([])
+        if (props.userData == null) setUser([])
         else setUser(props.userData)
         console.log(json)
       })
@@ -35,7 +35,7 @@ const View1 = (props) => {
   }
 
   async function onDeleteItem(id) {
-    console.log('delete',id)
+    console.log('delete', id)
     await fetch(props.apiURI + '/items' + `/${id}`, {
       method: 'DELETE',
       headers: {
@@ -66,9 +66,7 @@ const View1 = (props) => {
     })
   }
 
-  useEffect(() => {
-    APIItems();
-  }, []);
+  useEffect(() => {APIItems()}, []);
 
   function renderItem(item, index) {
     return (
@@ -76,32 +74,32 @@ const View1 = (props) => {
         style={{ flex: 1, flexDirection: 'row' }}
       >
         <TouchableOpacity >
-            <Icon
-              raised
-              iconStyle={{fontSize: 19}}
-              name='trash'
-              type='font-awesome'
-              color='#f50'
-              onPress={() => Alert.alert(
-                'Delete item',
-                'Are you sure to delete this item ?',
-                [
-                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-                  {text: 'OK', onPress: () => onDeleteItem(item.id)},
-                ],
-                { cancelable: false }
-              )}
-               />
-            <Icon
-              raised
-              iconStyle={{fontSize: 19}}
-              name='edit'
-              type='font-awesome'
-              color='#0000ff'
-              onPress={() => onEdit(item)} />
-      </TouchableOpacity>
+          <Icon
+            raised
+            iconStyle={{ fontSize: 19 }}
+            name='trash'
+            type='font-awesome'
+            color='#f50'
+            onPress={() => Alert.alert(
+              'Delete item',
+              'Are you sure to delete this item ?',
+              [
+                { text: 'Cancel', onPress: () => console.log('Cancel Pressed!') },
+                { text: 'OK', onPress: () => onDeleteItem(item.id) },
+              ],
+              { cancelable: false }
+            )}
+          />
+          <Icon
+            raised
+            iconStyle={{ fontSize: 19 }}
+            name='edit'
+            type='font-awesome'
+            color='#0000ff'
+            onPress={() => onEdit(item)} />
+        </TouchableOpacity>
 
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
           <Image
             source={item.images}
             resizeMode="contain"
@@ -111,8 +109,8 @@ const View1 = (props) => {
             }}
           />
         </View>
-        <View style={{flex: 1.5, marginLeft: SIZES.radius, justifyContent: "center" }}>
-        
+        <View style={{ flex: 1.5, marginLeft: SIZES.radius, justifyContent: "center" }}>
+
           <Text style={{ color: COLORS.black, ...FONTS.body3 }}>{item.title}</Text>
           <Text style={{ color: COLORS.lightGray, ...FONTS.body5 }}>{item.description}</Text>
           <Text style={{ ...FONTS.h3 }}>{item.price}$</Text>
@@ -138,18 +136,16 @@ const View1 = (props) => {
         onPress={() => props.navigation.navigate('Home')}
       />
       <View>
-                    <FlatList
-                        showsVerticalScrollIndicator={false}
-                        data={items}
-                        keyExtractor={item => item.id.toString()}
-                        renderItem={({ item, index }) => renderItem(item, index)}
-                    />
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={items}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item, index }) => renderItem(item, index)}
+        />
       </View>
     </View>
-    
+
   )
 }
-
-
 
 export default View1

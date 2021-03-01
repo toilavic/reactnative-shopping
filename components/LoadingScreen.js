@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
 
 const LoadingScreen = () => {
   return (
-    <View style={ styles.screen }>
+    <View style={styles.screen}>
       <ActivityIndicator size="large" color="#FFFFFF" />
     </View>
   )

@@ -19,8 +19,8 @@ const EditItem = (props) => {
         }), {
             method: 'PUT',
             headers: {
-              "Authorization": "Bearer " + props.userData.token,
-              "Content-Type": "application/json"
+                "Authorization": "Bearer " + props.userData.token,
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 "title": title,
@@ -28,30 +28,30 @@ const EditItem = (props) => {
                 "category": category,
                 "location": {
                     "country": country,
-                    "city":city
+                    "city": city
                 },
                 "images": image,
                 "price": price,
                 "deliveryType": deliveryType
-              })
-          })
+            })
+        })
             .then(response => {
-              if (response.ok == false) {
-                throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
-              }
-              return response.json();
+                if (response.ok == false) {
+                    throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+                }
+                return response.json();
             })
             .then(json => props.navigation.reset({
                 index: 0,
                 routes: [{ name: 'TodoApp' }],
             }))
             .catch(error => {
-              console.log("Error message:")
-              console.log(error.message)
+                console.log("Error message:")
+                console.log(error.message)
             });
     }
 
-   
+
     const item = props.itemToEdit
     return (
         <View style={styles.screen}>

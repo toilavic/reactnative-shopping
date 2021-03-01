@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     View,
@@ -14,10 +14,9 @@ import {
 import { CheckBox } from 'react-native-elements'
 import { images, COLORS, FONTS, SIZES } from '../constants';
 import ModalDropdown from 'react-native-modal-dropdown';
-import { Icon } from 'react-native-elements'
 
 const Home = (props) => {
-
+    // DEADLINE COMES TO MY ASS SO I AM SORRY TO SAY THAT I HAVE TO TIME TO SPLIT COMPONENTS ^^
     const [checked, setChecked] = React.useState(false)
     const [recentlyViewed, setRecentlyViewed] = React.useState([]);
     const [city, setCity] = React.useState(['Oulu']);
@@ -41,16 +40,7 @@ const Home = (props) => {
             type: "TRAINING",
             price: "$135",
         },
-        {
-            id: 2,
-            name: "Nike Air Zoom Kobe 1 Proto",
-            img: images.nikeZoomKobe1Proto,
-            bgColor: "#7052A0",
-            type: "BASKETBALL",
-            price: "$199",
-        },
     ]);
-
 
     function onLastest() {
         setChecked(!checked)
@@ -76,46 +66,45 @@ const Home = (props) => {
 
     function onSelectCategory(value) {
         console.log(value)
-            fetch(props.apiURI + '/items?category=' + value, { method: 'GET' })
-                .then(response => {
-                    if (response.ok == false) {
-                        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
-                    }
-                    return response.json();
-                })
-                .then(json => {
-                    setRecentlyViewed(json)
-                    console.log(json);
-                })
-                .catch(error => {
-                    console.log("Error message:")
-                    console.log(error.message)
-                });
+        fetch(props.apiURI + '/items?category=' + value, { method: 'GET' })
+            .then(response => {
+                if (response.ok == false) {
+                    throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+                }
+                return response.json();
+            })
+            .then(json => {
+                setRecentlyViewed(json)
+                console.log(json);
+            })
+            .catch(error => {
+                console.log("Error message:")
+                console.log(error.message)
+            });
     }
 
     function onSelectCity(value) {
         console.log(value)
-            fetch(props.apiURI + '/items?city=' + value, { method: 'GET' })
-                .then(response => {
-                    if (response.ok == false) {
-                        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
-                    }
-                    return response.json();
-                })
-                .then(json => {
-                    setRecentlyViewed(json)
-                    console.log(json);
-                })
-                .catch(error => {
-                    console.log("Error message:")
-                    console.log(error.message)
-                });
+        fetch(props.apiURI + '/items?city=' + value, { method: 'GET' })
+            .then(response => {
+                if (response.ok == false) {
+                    throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+                }
+                return response.json();
+            })
+            .then(json => {
+                setRecentlyViewed(json)
+                console.log(json);
+            })
+            .catch(error => {
+                console.log("Error message:")
+                console.log(error.message)
+            });
     }
 
 
     function renderTrendingShoes(item, index) {
         var trendingStyle = {};
-
         if (index == 0) {
             trendingStyle = { marginLeft: SIZES.padding, }
         } else {
@@ -191,7 +180,7 @@ const Home = (props) => {
                 </View>
                 <View style={{ flex: 1.5, marginLeft: SIZES.radius, justifyContent: "center" }}>
                     <Text style={{ color: COLORS.black, ...FONTS.body3 }}>{item.title}</Text>
-                    <Text style={{ color: COLORS.lightGray, ...FONTS.body5}}>{item.description}</Text>
+                    <Text style={{ color: COLORS.lightGray, ...FONTS.body5 }}>{item.description}</Text>
                     <Text style={{ ...FONTS.h3 }}>{item.price}$</Text>
                 </View>
             </TouchableOpacity>
@@ -200,44 +189,42 @@ const Home = (props) => {
 
     function APIItems() {
         fetch(props.apiURI + '/items', {
-          method: 'GET'
+            method: 'GET'
         })
-        .then(response => {
-          if (response.ok == false) {
-            throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
-          }
-          return response.json();
-        })
-        .then(json => {
-          console.log("Received following JSON");
-          let tempCate = [];
-          let tempCity = [];
-          setRecentlyViewed(json)
+            .then(response => {
+                if (response.ok == false) {
+                    throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+                }
+                return response.json();
+            })
+            .then(json => {
+                console.log("Received following JSON");
+                let tempCate = [];
+                let tempCity = [];
+                setRecentlyViewed(json)
 
-          json.map(e => {
-            tempCate.push(e.category)
-            tempCity.push(e.location.city)
-          })
-        // remove duplicate data
-        var uniqueCate = tempCate.filter(function(item, pos) {
-            return tempCate.indexOf(item) == pos;
-        })  
-        var uniqueCity = tempCity.filter(function(item, pos) {
-            return tempCity.indexOf(item) == pos;
-        })  
-          setCategory(uniqueCate)
-          setCity(uniqueCity)
-          console.log(json);
-        })
-        .catch(error => {
-          console.log("Error message:")
-          console.log(error.message)
-        });
+                json.map(e => {
+                    tempCate.push(e.category)
+                    tempCity.push(e.location.city)
+                })
+                // remove duplicate data
+                var uniqueCate = tempCate.filter(function (item, pos) {
+                    return tempCate.indexOf(item) == pos;
+                })
+                var uniqueCity = tempCity.filter(function (item, pos) {
+                    return tempCity.indexOf(item) == pos;
+                })
+                setCategory(uniqueCate)
+                setCity(uniqueCity)
+                console.log(json);
+            })
+            .catch(error => {
+                console.log("Error message:")
+                console.log(error.message)
+            });
     }
 
-    useEffect(() => {
-        APIItems();
-    },[]);
+    useEffect(() => {  APIItems()}, []);
 
     return (
         <View style={styles.container}>
@@ -253,7 +240,7 @@ const Home = (props) => {
                 />
             </View>
             {/* select btn */}
-            <View style={{ flex: 1, justifyContent: 'center', marginTop: -170, height: 100}}>
+            <View style={{ flex: 1, justifyContent: 'center', marginTop: -170, height: 100 }}>
                 <View
                     style={{
                         width: '100%',
@@ -275,47 +262,35 @@ const Home = (props) => {
                             checked={checked}
                             onPress={onLastest}
                         />
-                        {/* <Icon
-                            raised
-                            iconStyle={{ fontSize: 19 }}
-                            name='edit'
-                            type='font-awesome'
-                            color='#f50'
-                            onPress={() => onEdit(item)} /> */}
                         <ModalDropdown options={category}
-                                        defaultValue={'Category'}
-                                        style={{ width: '50%', paddingBottom: 10, marginLeft: 30 }}
-                                        textStyle={{fontSize:14}}
-                                        dropdownStyle={{width: 100}}
-                                        onSelect={(index, value) => onSelectCategory(value)}
+                            defaultValue={'Category'}
+                            style={{ width: '50%', paddingBottom: 10, marginLeft: 30 }}
+                            textStyle={{ fontSize: 14 }}
+                            dropdownStyle={{ width: 100 }}
+                            onSelect={(index, value) => onSelectCategory(value)}
                         />
-                        <ModalDropdown options={city} 
-                                        defaultValue={'City'}
-                                        style={{ width: '50%', paddingBottom: 10, marginLeft: -80 }}
-                                        textStyle={{fontSize:14}}
-                                        onSelect={(index, value) => onSelectCity(value)}
+                        <ModalDropdown options={city}
+                            defaultValue={'City'}
+                            style={{ width: '50%', paddingBottom: 10, marginLeft: -80 }}
+                            textStyle={{ fontSize: 14 }}
+                            onSelect={(index, value) => onSelectCity(value)}
                         />
-                        
                     </View>
-
                 </View>
             </View>
 
-                <View
-                    style={[{
-                        flex: 1,
-                        flexDirection: 'row',
-                        marginTop: -150,
-                        borderTopLeftRadius: 30,
-                        borderTopRightRadius: 30,
-                        backgroundColor: COLORS.white,
-                        display: 'inline'
-                    }, styles.recentContainerShadow]}
-                >
+            <View
+                style={[{
+                    flex: 1,
+                    flexDirection: 'row',
+                    marginTop: -150,
+                    borderTopLeftRadius: 30,
+                    borderTopRightRadius: 30,
+                    backgroundColor: COLORS.white,
+                    display: 'inline'
+                }, styles.recentContainerShadow]}
+            >
 
-
-
-                
                 <View style={{ flex: 1, paddingBottom: SIZES.padding }}>
                     <FlatList
                         showsVerticalScrollIndicator={false}

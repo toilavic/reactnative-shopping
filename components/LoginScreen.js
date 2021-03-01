@@ -22,54 +22,54 @@ const LoginScreen = (props) => {
         "Content-type": "application/json; charset=UTF-8"
       }
     })
-    .then(response => {
-      if (response.ok == false) {
-        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
-      }
-      return response.json();
-    })
-    .then(json => {
-      console.log("Login successful")
-      console.log("Received following JSON");
-      props.onLoginReceiveJWT(json);
-    })
-    .catch(error => {
-      console.log("Error message:")
-      console.log(error.message)
-    });
+      .then(response => {
+        if (response.ok == false) {
+          throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log("Login successful")
+        console.log("Received following JSON");
+        props.onLoginReceiveJWT(json);
+      })
+      .catch(error => {
+        console.log("Error message:")
+        console.log(error.message)
+      });
   }
 
 
 
   return (
-    <View style={ styles.screen }>
-      <Text style={ styles.header }>User Login</Text>
-      <Text style={ styles.text }>Username</Text>
+    <View style={styles.screen}>
+      <Text style={styles.header}>User Login</Text>
+      <Text style={styles.text}>Username</Text>
       <TextInput
-        style={ styles.input }
-        value={ userName }
+        style={styles.input}
+        value={userName}
         placeholder="johndoe"
-        onChangeText={ value => setUserName(value)}
+        onChangeText={value => setUserName(value)}
       />
-      <Text style={ styles.text }>Password</Text>
+      <Text style={styles.text}>Password</Text>
       <TextInput
-        style={ styles.input }
-        value={ password }
+        style={styles.input}
+        value={password}
         placeholder="password"
-        onChangeText={ value => setPassword(value)}
+        onChangeText={value => setPassword(value)}
       />
-      
-      <TouchableHighlight onPress={ () => loginClick() }>
-        <View style={ styles.primaryButton }>
-          <Text style={ styles.primaryButtonText }>Login</Text>
+
+      <TouchableHighlight onPress={() => loginClick()}>
+        <View style={styles.primaryButton}>
+          <Text style={styles.primaryButtonText}>Login</Text>
         </View>
       </TouchableHighlight>
-      <TouchableHighlight onPress={ () => props.navigation.navigate('Home')}>
-        <View style={ styles.primaryButton }>
-          <Text style={ styles.primaryButtonText } > Non-user</Text>
+      <TouchableHighlight onPress={() => props.navigation.navigate('Home')}>
+        <View style={styles.primaryButton}>
+          <Text style={styles.primaryButtonText} > Non-user</Text>
         </View>
       </TouchableHighlight>
-      <Button title="Sign up" color="#000000" onPress={ () => props.navigation.navigate('Signup') } />
+      <Button title="Sign up" color="#000000" onPress={() => props.navigation.navigate('Signup')} />
     </View>
   )
 }

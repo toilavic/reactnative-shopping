@@ -5,12 +5,12 @@ const SignUpCompleted = (props) => {
 
 
   return (
-    <View style={ styles.screen }>
-      <Text style={ styles.header }>Sign up completed</Text>
-      <Button title="Proceed to login" onPress={ () => props.navigation.reset({
-          index: 0,
-          routes: [{ name: 'Login' }],
-        })}></Button>
+    <View style={styles.screen}>
+      <Text style={styles.header}>Sign up completed</Text>
+      <Button title="Proceed to login" onPress={() => props.navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      })}></Button>
     </View>
   )
 }
