@@ -31,7 +31,7 @@ const LoginScreen = (props) => {
     .then(json => {
       console.log("Login successful")
       console.log("Received following JSON");
-      props.onLoginReceiveJWT(json.token);
+      props.onLoginReceiveJWT(json);
     })
     .catch(error => {
       console.log("Error message:")
@@ -58,14 +58,15 @@ const LoginScreen = (props) => {
         placeholder="password"
         onChangeText={ value => setPassword(value)}
       />
-      <TouchableHighlight onPress={ () => props.navigation.navigate('Home')}>
-        <View style={ styles.primaryButton }>
-          <Text style={ styles.primaryButtonText } > Non-user</Text>
-        </View>
-      </TouchableHighlight>
+      
       <TouchableHighlight onPress={ () => loginClick() }>
         <View style={ styles.primaryButton }>
           <Text style={ styles.primaryButtonText }>Login</Text>
+        </View>
+      </TouchableHighlight>
+      <TouchableHighlight onPress={ () => props.navigation.navigate('Home')}>
+        <View style={ styles.primaryButton }>
+          <Text style={ styles.primaryButtonText } > Non-user</Text>
         </View>
       </TouchableHighlight>
       <Button title="Sign up" color="#000000" onPress={ () => props.navigation.navigate('Signup') } />

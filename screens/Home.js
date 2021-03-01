@@ -1,28 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import {
     StyleSheet,
-    SafeAreaView,
     View,
     Text,
     Image,
     TouchableOpacity,
     FlatList,
-    Modal
 } from 'react-native'
 import {
     Svg,
     Polygon
 } from 'react-native-svg';
-import { BlurView } from "@react-native-community/blur";
-
-import { images, icons, COLORS, FONTS, SIZES } from '../constants';
-import axios from 'axios';
-
+import { CheckBox } from 'react-native-elements'
+import { images, COLORS, FONTS, SIZES } from '../constants';
+import DropDownPicker from 'react-native-dropdown-picker';
 const Home = (props) => {
 
     const [showAddToBagModal, setShowAddToBagModal] = React.useState(false)
     const [selectedItem, setSelectedItem] = React.useState(null)
     const [selectedSize, setSelectedSize] = React.useState("")
+    const [checked, setChecked] = React.useState(false)
 
     // Dummy Data
     const [trending, setTrending] = React.useState([
@@ -52,48 +49,7 @@ const Home = (props) => {
         },
     ]);
 
-    const [recentlyViewed, setRecentlyViewed] = React.useState([
-        {
-            id: 0,
-            name: "Nike Metcon 4",
-            img: images.nikeMetcon4,
-            bgColor: "#414045",
-            type: "TRAINING",
-            price: "$119",
-        },
-        {
-            id: 1,
-            name: "Nike Metcon 6",
-            img: images.nikeMetcon6,
-            bgColor: "#4EABA6",
-            type: "TRAINING",
-            price: "$135",
-        },
-        {
-            id: 2,
-            name: "Nike Metcon 5",
-            img: images.nikeMetcon5Purple,
-            bgColor: "#2B4660",
-            type: "TRAINING",
-            price: "$124",
-        },
-        {
-            id: 3,
-            name: "Nike Metcon 3",
-            img: images.nikeMetcon3,
-            bgColor: "#A69285",
-            type: "TRAINING",
-            price: "$99",
-        },
-        {
-            id: 4,
-            name: "Nike Metcon Free",
-            img: images.nikeMetconFree,
-            bgColor: "#A02E41",
-            type: "TRAINING",
-            price: "$108",
-        },
-    ]);
+    const [recentlyViewed, setRecentlyViewed] = React.useState([]);
 
     // Render
 
@@ -162,14 +118,10 @@ const Home = (props) => {
         return (
             <TouchableOpacity
                 style={{ flex: 1, flexDirection: 'row' }}
-                onPress={() => {
-                    setSelectedItem(item)
-                    setShowAddToBagModal(true)
-                }}
             >
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                     <Image
-                        source={item.img}
+                        source={item.images}
                         resizeMode="contain"
                         style={{
                             width: 130,
@@ -178,8 +130,9 @@ const Home = (props) => {
                     />
                 </View>
                 <View style={{ flex: 1.5, marginLeft: SIZES.radius, justifyContent: "center" }}>
-                    <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>{item.name}</Text>
-                    <Text style={{ ...FONTS.h3 }}>{item.price}</Text>
+                    <Text style={{ color: COLORS.black, ...FONTS.body3 }}>{item.title}</Text>
+                    <Text style={{ color: COLORS.lightGray, ...FONTS.body5}}>{item.description}</Text>
+                    <Text style={{ ...FONTS.h3 }}>{item.price}$</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -212,7 +165,7 @@ const Home = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text style={{ marginTop: SIZES.radius, marginHorizontal: SIZES.padding, ...FONTS.largeTitleBold }}>TRENDING</Text>
+            <Text style={{ marginTop: SIZES.radius, marginHorizontal: SIZES.padding, ...FONTS.largeTitleBold }}>TRENDING SHOES</Text>
 
             <View style={{ height: 260, marginTop: SIZES.radius }}>
                 <FlatList
@@ -223,27 +176,81 @@ const Home = (props) => {
                     renderItem={({ item, index }) => renderTrendingShoes(item, index)}
                 />
             </View>
-
-            <View
-                style={[{
-                    flex: 1,
-                    flexDirection: 'row',
-                    marginTop: SIZES.padding,
-                    borderTopLeftRadius: 30,
-                    borderTopRightRadius: 30,
-                    backgroundColor: COLORS.white
-                }, styles.recentContainerShadow]}
-            >
-                <View style={{ width: 70, marginLeft: SIZES.base }}>
-                    <Image
-                        source={images.recentlyViewedLabel}
-                        resizeMode="contain"
+            {/* select btn */}
+            <View style={{ flex: 1, justifyContent: 'center', marginTop: -170, height: 100}}>
+                <View
+                    style={{
+                        width: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                    <View
                         style={{
-                            width: "100%",
-                            height: "100%",
-                        }}
-                    />
+                            width: '100%',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}>
+                        <CheckBox
+                            style={{ width: '50%', padding: 1 }}
+                            rightTextStyle={{ marginLeft: 0, paddingLeft: 0 }}
+                            isChecked={true}
+                            title='Lastest'
+                        />
+
+                        <DropDownPicker
+                            items={[
+                                { label: 'United States', value: 'us' },
+                                { label: 'Canada', value: 'canada' },
+                                { label: 'Mexico', value: 'mexico' },
+                                { label: 'UK', value: 'uk' },
+                                { label: 'Germany', value: 'germany' },
+                                { label: 'Russia', value: 'russia' },
+                            ]}
+                            style={{ marginRight: 30, width: 100 }}
+                            itemStyle={{
+                                justifyContent: 'flex-start',
+                                width: 50,
+                                display: 'inline-block'
+                            }}
+                            dropDownStyle={{width: 100, position: 'absolute', backgroundColor: 'gray'}}
+                        />
+                        <DropDownPicker 
+                            items={[
+                                { label: 'United States', value: 'us' },
+                                { label: 'Canada', value: 'canada' },
+                                { label: 'Mexico', value: 'mexico' },
+                                { label: 'UK', value: 'uk' },
+                                { label: 'Germany', value: 'germany' },
+                                { label: 'Russia', value: 'russia' },
+                            ]}
+                            style={{ marginRight: 30, width: 100 }}
+                            itemStyle={{
+                                justifyContent: 'flex-start',
+                                width: 50
+                            }}
+                            dropDownStyle={{ backgroundColor: '#fafafa', width: 100 }}
+                        />
+                    </View>
+
                 </View>
+            </View>
+
+                <View
+                    style={[{
+                        flex: 1,
+                        flexDirection: 'row',
+                        marginTop: -150,
+                        borderTopLeftRadius: 30,
+                        borderTopRightRadius: 30,
+                        backgroundColor: COLORS.white,
+                        display: 'inline'
+                    }, styles.recentContainerShadow]}
+                >
+
+
+
+                
                 <View style={{ flex: 1, paddingBottom: SIZES.padding }}>
                     <FlatList
                         showsVerticalScrollIndicator={false}

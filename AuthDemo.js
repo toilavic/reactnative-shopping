@@ -8,7 +8,6 @@ import SignUpCompleted from './components/SignUpCompleted'
 import * as SecureStore from 'expo-secure-store'
 import LoadingScreen from './components/LoadingScreen'
 import TodoApp from './components/TodoApp'
-import ProductItem from './components/ProductItem'
 import Home from './screens/Home'
 
 const Stack = createStackNavigator();
@@ -20,7 +19,8 @@ export default class AuthDemo extends Component {
     super(props);
     this.state = {
       isCheckingTokenStorage: true,
-      activeJWT: null
+      activeJWT: null,
+      userData: null
     };
   }
 
@@ -38,12 +38,13 @@ export default class AuthDemo extends Component {
   }
 
   
-  onLoginReceiveJWT = (responseJWT) => {
+  onLoginReceiveJWT = (data) => {
+    const responseJWT = data.token
     // Deal with successful login by storing the token into secure store
     SecureStore.setItemAsync(secureStoreTokenName, responseJWT)
       .then(response => {
         console.log(response);
-        this.setState({ activeJWT: responseJWT, isCheckingTokenStorage: false })
+        this.setState({ activeJWT: responseJWT, isCheckingTokenStorage: false, userData: data })
       })    
   }
 
@@ -77,14 +78,6 @@ export default class AuthDemo extends Component {
           { props => <SignUpCompleted {...props}></SignUpCompleted>}
         </Stack.Screen>
         <Stack.Screen
-          name="ProductItem"
-          options={{
-            headerShown: false,
-          }}
-        >
-          { props => <ProductItem {...props} apiURI={ this.props.apiURI }></ProductItem>}
-        </Stack.Screen>
-        <Stack.Screen
           name="Home"
           options={{
             headerShown: false,
@@ -106,6 +99,7 @@ export default class AuthDemo extends Component {
                         jwt={ this.state.activeJWT } 
                         apiURI={ this.props.apiURI }
                         onLogout={ this.onLogout }
+                        userData= {this.state.userData}
                       ></TodoApp>}
       </Stack.Screen>
     )
