@@ -14,9 +14,7 @@ const EditItem = (props) => {
 
 
     async function onEdit() {
-        await fetch(props.apiURI + '/items' + new URLSearchParams({
-            date: 'desc',
-        }), {
+        await fetch(props.apiURI + '/items' + `/${props.itemToEdit.id}`, {
             method: 'PUT',
             headers: {
                 "Authorization": "Bearer " + props.userData.token,
@@ -167,6 +165,4 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
 });
-
-
 export default EditItem
