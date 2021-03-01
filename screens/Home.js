@@ -13,13 +13,15 @@ import {
 } from 'react-native-svg';
 import { CheckBox } from 'react-native-elements'
 import { images, COLORS, FONTS, SIZES } from '../constants';
-import DropDownPicker from 'react-native-dropdown-picker';
+import ModalDropdown from 'react-native-modal-dropdown';
+import { Icon } from 'react-native-elements'
+
 const Home = (props) => {
 
-    const [showAddToBagModal, setShowAddToBagModal] = React.useState(false)
-    const [selectedItem, setSelectedItem] = React.useState(null)
-    const [selectedSize, setSelectedSize] = React.useState("")
     const [checked, setChecked] = React.useState(false)
+    const [recentlyViewed, setRecentlyViewed] = React.useState([]);
+    const [city, setCity] = React.useState(['Oulu']);
+    const [category, setCategory] = React.useState(['Shoes']);
 
     // Dummy Data
     const [trending, setTrending] = React.useState([
@@ -49,9 +51,67 @@ const Home = (props) => {
         },
     ]);
 
-    const [recentlyViewed, setRecentlyViewed] = React.useState([]);
 
-    // Render
+    function onLastest() {
+        setChecked(!checked)
+        const order = 'desc'
+        if (!checked) {
+            fetch(props.apiURI + '/items?date=' + order, { method: 'GET' })
+                .then(response => {
+                    if (response.ok == false) {
+                        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    setRecentlyViewed(json)
+                    console.log(json);
+                })
+                .catch(error => {
+                    console.log("Error message:")
+                    console.log(error.message)
+                });
+        } else APIItems();
+    }
+
+    function onSelectCategory(value) {
+        console.log(value)
+            fetch(props.apiURI + '/items?category=' + value, { method: 'GET' })
+                .then(response => {
+                    if (response.ok == false) {
+                        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    setRecentlyViewed(json)
+                    console.log(json);
+                })
+                .catch(error => {
+                    console.log("Error message:")
+                    console.log(error.message)
+                });
+    }
+
+    function onSelectCity(value) {
+        console.log(value)
+            fetch(props.apiURI + '/items?city=' + value, { method: 'GET' })
+                .then(response => {
+                    if (response.ok == false) {
+                        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    setRecentlyViewed(json)
+                    console.log(json);
+                })
+                .catch(error => {
+                    console.log("Error message:")
+                    console.log(error.message)
+                });
+    }
+
 
     function renderTrendingShoes(item, index) {
         var trendingStyle = {};
@@ -150,7 +210,23 @@ const Home = (props) => {
         })
         .then(json => {
           console.log("Received following JSON");
+          let tempCate = [];
+          let tempCity = [];
           setRecentlyViewed(json)
+
+          json.map(e => {
+            tempCate.push(e.category)
+            tempCity.push(e.location.city)
+          })
+        // remove duplicate data
+        var uniqueCate = tempCate.filter(function(item, pos) {
+            return tempCate.indexOf(item) == pos;
+        })  
+        var uniqueCity = tempCity.filter(function(item, pos) {
+            return tempCity.indexOf(item) == pos;
+        })  
+          setCategory(uniqueCate)
+          setCity(uniqueCity)
           console.log(json);
         })
         .catch(error => {
@@ -196,41 +272,30 @@ const Home = (props) => {
                             rightTextStyle={{ marginLeft: 0, paddingLeft: 0 }}
                             isChecked={true}
                             title='Lastest'
+                            checked={checked}
+                            onPress={onLastest}
                         />
-
-                        <DropDownPicker
-                            items={[
-                                { label: 'United States', value: 'us' },
-                                { label: 'Canada', value: 'canada' },
-                                { label: 'Mexico', value: 'mexico' },
-                                { label: 'UK', value: 'uk' },
-                                { label: 'Germany', value: 'germany' },
-                                { label: 'Russia', value: 'russia' },
-                            ]}
-                            style={{ marginRight: 30, width: 100 }}
-                            itemStyle={{
-                                justifyContent: 'flex-start',
-                                width: 50,
-                                display: 'inline-block'
-                            }}
-                            dropDownStyle={{width: 100, position: 'absolute', backgroundColor: 'gray'}}
+                        {/* <Icon
+                            raised
+                            iconStyle={{ fontSize: 19 }}
+                            name='edit'
+                            type='font-awesome'
+                            color='#f50'
+                            onPress={() => onEdit(item)} /> */}
+                        <ModalDropdown options={category}
+                                        defaultValue={'Category'}
+                                        style={{ width: '50%', paddingBottom: 10, marginLeft: 30 }}
+                                        textStyle={{fontSize:14}}
+                                        dropdownStyle={{width: 100}}
+                                        onSelect={(index, value) => onSelectCategory(value)}
                         />
-                        <DropDownPicker 
-                            items={[
-                                { label: 'United States', value: 'us' },
-                                { label: 'Canada', value: 'canada' },
-                                { label: 'Mexico', value: 'mexico' },
-                                { label: 'UK', value: 'uk' },
-                                { label: 'Germany', value: 'germany' },
-                                { label: 'Russia', value: 'russia' },
-                            ]}
-                            style={{ marginRight: 30, width: 100 }}
-                            itemStyle={{
-                                justifyContent: 'flex-start',
-                                width: 50
-                            }}
-                            dropDownStyle={{ backgroundColor: '#fafafa', width: 100 }}
+                        <ModalDropdown options={city} 
+                                        defaultValue={'City'}
+                                        style={{ width: '50%', paddingBottom: 10, marginLeft: -80 }}
+                                        textStyle={{fontSize:14}}
+                                        onSelect={(index, value) => onSelectCity(value)}
                         />
+                        
                     </View>
 
                 </View>

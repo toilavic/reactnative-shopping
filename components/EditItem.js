@@ -14,8 +14,9 @@ const EditItem = (props) => {
 
 
     async function onEdit() {
-        console.log(props.apiURI + '/items' + `/${props.itemToEdit.id}`)
-        await fetch(props.apiURI + '/items' + `/${props.itemToEdit.id}`, {
+        await fetch(props.apiURI + '/items' + new URLSearchParams({
+            date: 'desc',
+        }), {
             method: 'PUT',
             headers: {
               "Authorization": "Bearer " + props.userData.token,
